@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Api", "TechnicalChallenge.SchoolManagement.Api\TechnicalChallenge.SchoolManagement.Api.csproj", "{645002BB-0448-447F-A168-0F7E56692C8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseBusinessRules", "EnterpriseBusinessRules", "{BF268B55-EBB0-458E-9D0E-61CEB8CBD6BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationBusinessRules", "ApplicationBusinessRules", "{B3D34C94-573B-45C3-B1F0-C7EF8B547EC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InterfaceAdapters", "InterfaceAdapters", "{7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameworksAndDrivers", "FrameworksAndDrivers", "{039C0951-0904-4ECD-BE82-F1331BE09FF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Entities", "TechnicalChallenge.SchoolManagement.Entities\TechnicalChallenge.SchoolManagement.Entities.csproj", "{41FAB7CF-2407-4066-A927-E3D0B0F53AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.UseCases", "TechnicalChallenge.SchoolManagement.UseCases\TechnicalChallenge.SchoolManagement.UseCases.csproj", "{59596163-CEB4-47EF-B63F-F5032E7D9BB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Data", "TechnicalChallenge.SchoolManagement.Data\TechnicalChallenge.SchoolManagement.Data.csproj", "{3E0881D3-E2C1-42C6-8556-3B926A501262}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Repository", "TechnicalChallenge.SchoolManagement.Repository\TechnicalChallenge.SchoolManagement.Repository.csproj", "{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{645002BB-0448-447F-A168-0F7E56692C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645002BB-0448-447F-A168-0F7E56692C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645002BB-0448-447F-A168-0F7E56692C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645002BB-0448-447F-A168-0F7E56692C8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41FAB7CF-2407-4066-A927-E3D0B0F53AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41FAB7CF-2407-4066-A927-E3D0B0F53AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41FAB7CF-2407-4066-A927-E3D0B0F53AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41FAB7CF-2407-4066-A927-E3D0B0F53AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59596163-CEB4-47EF-B63F-F5032E7D9BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59596163-CEB4-47EF-B63F-F5032E7D9BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59596163-CEB4-47EF-B63F-F5032E7D9BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59596163-CEB4-47EF-B63F-F5032E7D9BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0881D3-E2C1-42C6-8556-3B926A501262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0881D3-E2C1-42C6-8556-3B926A501262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0881D3-E2C1-42C6-8556-3B926A501262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0881D3-E2C1-42C6-8556-3B926A501262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{645002BB-0448-447F-A168-0F7E56692C8B} = {039C0951-0904-4ECD-BE82-F1331BE09FF9}
+		{41FAB7CF-2407-4066-A927-E3D0B0F53AF2} = {BF268B55-EBB0-458E-9D0E-61CEB8CBD6BB}
+		{59596163-CEB4-47EF-B63F-F5032E7D9BB1} = {B3D34C94-573B-45C3-B1F0-C7EF8B547EC1}
+		{3E0881D3-E2C1-42C6-8556-3B926A501262} = {7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}
+		{C684440B-E6CE-4AC2-8DA5-D3F37C8ACB1D} = {7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}
+	EndGlobalSection
+EndGlobal
