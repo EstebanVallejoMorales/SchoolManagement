@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
-using TechnicalChallenge.SchoolManagement.Entities;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Student
 {
-    public class GetStudentUseCase<T>
+    public class GetStudentByIdUseCase<T>
     {
         private readonly IRepository<T> _studentRepository;
 
-        public GetStudentUseCase(IRepository<T> studentRepository)
+        public GetStudentByIdUseCase(IRepository<T> studentRepository)
         {
-            _studentRepository = studentRepository;
+            _studentRepository = studentRepository;            
         }
 
-        public async Task<IEnumerable<T>> ExecuteAsync()
+        public async Task<T?> ExecuteAsync(int id)
         {
-            return await _studentRepository.GetAllAsync();
+            return await _studentRepository.GetByIdAsync(id);
         }
     }
 }

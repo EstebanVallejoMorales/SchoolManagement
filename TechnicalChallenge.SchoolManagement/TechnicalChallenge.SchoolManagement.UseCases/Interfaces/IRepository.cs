@@ -10,6 +10,8 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Interfaces
     {
         Task<T?> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
-        Task AddAsync(T entity);
+        Task<int> AddAsync(T entity);
+        Task<int> DeleteAsync(int id);
+        Task<int> UpdateAsync(T entity);
     }
 }

@@ -15,6 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TechnicalChallenge.SchoolManagement.Data\TechnicalChallenge.SchoolManagement.Data.csproj" />
+    <ProjectReference Include="..\TechnicalChallenge.SchoolManagement.Repository\TechnicalChallenge.SchoolManagement.Repository.csproj" />
+    <ProjectReference Include="..\TechnicalChallenge.SchoolManagement.UseCases\TechnicalChallenge.SchoolManagement.UseCases.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using TechnicalChallenge.SchoolManagement.Data;
+using TechnicalChallenge.SchoolManagement.Entities;
+using TechnicalChallenge.SchoolManagement.Models;
+using TechnicalChallenge.SchoolManagement.Repository;
+using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
+using TechnicalChallenge.SchoolManagement.UseCases.Student;
 
 namespace TechnicalChallenge.SchoolManagement.Api
 {
@@ -14,6 +19,10 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+            // Dependencies
+            builder.Services.AddScoped<IRepository<Student>, StudentRepository>();
+            builder.Services.AddScoped<GetStudentUseCase<Student>>();
 
             // Add services to the container.
 
