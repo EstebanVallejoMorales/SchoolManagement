@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TechnicalChallenge.SchoolManagement.Data;
 using TechnicalChallenge.SchoolManagement.Entities;
 using TechnicalChallenge.SchoolManagement.Models;
+using TechnicalChallenge.SchoolManagement.Presenters.Presenters;
+using TechnicalChallenge.SchoolManagement.Presenters.Student;
 using TechnicalChallenge.SchoolManagement.Repository;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 using TechnicalChallenge.SchoolManagement.UseCases.Student;
@@ -22,7 +24,27 @@ namespace TechnicalChallenge.SchoolManagement.Api
 
             // Dependencies
             builder.Services.AddScoped<IRepository<Student>, StudentRepository>();
-            builder.Services.AddScoped<GetStudentUseCase<Student>>();
+
+            // Use Cases
+            builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
+            builder.Services.AddScoped<GetAllStudentUseCase<Student, StudentViewModel>>();
+            builder.Services.AddScoped<CreateStudentUseCase>();
+
+            // Presenters
+            builder.Services.AddScoped<IPresenter<Student, StudentViewModel>, StudentPresenter>();
+
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "_corsConfiguration",
+                                  builder =>
+                                  {
+                                      builder
+                                             .AllowAnyOrigin()
+                                             .AllowAnyMethod()
+                                             .AllowAnyHeader();
+                                  });
+            });
 
             // Add services to the container.
 
@@ -46,6 +68,8 @@ namespace TechnicalChallenge.SchoolManagement.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("_corsConfiguration");
 
             app.UseHttpsRedirection();
 

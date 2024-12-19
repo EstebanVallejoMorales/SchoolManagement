@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<TEntity>
     {
-        Task<T?> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<int> AddAsync(T entity);
+        Task<TEntity?> GetByIdAsync(int id);
         Task<int> DeleteAsync(int id);
-        Task<int> UpdateAsync(T entity);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<int> AddAsync(TEntity entity);
+        Task<int> UpdateAsync(TEntity entity);
+
     }
 }
