@@ -55,7 +55,12 @@ namespace TechnicalChallenge.SchoolManagement.Repository
                 Id = s.Id,
                 Name = s.Name,
                 LastName = s.LastName,
-                GenderId= s.GenderId
+                GenderId= s.GenderId,
+                Gender = new Gender 
+                {
+                    Id= s.GenderId,
+                    Name = s.Gender.Name
+                }
             }).ToListAsync();
         }
 

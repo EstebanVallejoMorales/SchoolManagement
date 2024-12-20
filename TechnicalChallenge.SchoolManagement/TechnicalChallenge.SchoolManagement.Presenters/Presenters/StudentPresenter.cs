@@ -20,7 +20,8 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
                 Id = student.Id,
                 GenderId = student.GenderId,                
                 LastName = student.LastName,
-                Name = student.Name
+                Name = student.Name,
+                GenderName = student.Gender.Name
             });
         }
 
@@ -35,7 +36,8 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
                 Id = student.Id,
                 GenderId = student.GenderId,
                 LastName = student.LastName,
-                Name = student.Name
+                Name = student.Name,
+                GenderName = student.Gender.Name
             };
         }
     }

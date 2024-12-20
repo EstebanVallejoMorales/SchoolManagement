@@ -37,7 +37,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("GetAllStudents")]
-        [ProducesResponseType(typeof(ResponseDto<IEnumerable<Student>>), 200)]
+        [ProducesResponseType(typeof(ResponseDto<IEnumerable<StudentViewModel>>), 200)]
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> GetAllStudents()
         {

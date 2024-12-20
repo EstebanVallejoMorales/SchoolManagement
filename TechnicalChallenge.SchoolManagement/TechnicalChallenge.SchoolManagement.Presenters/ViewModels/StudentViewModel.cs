@@ -1,4 +1,6 @@
-﻿namespace TechnicalChallenge.SchoolManagement.Presenters.Student
+﻿using TechnicalChallenge.SchoolManagement.Entities;
+
+namespace TechnicalChallenge.SchoolManagement.Presenters.Student
 {
     public class StudentViewModel
     {
@@ -6,5 +8,6 @@
         public string Name { get; set; }
         public string LastName { get; set; }
         public int GenderId { get; set; }
+        public string GenderName { get; set; }
     }
 }
