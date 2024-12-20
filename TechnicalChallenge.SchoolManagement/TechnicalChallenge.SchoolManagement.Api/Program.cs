@@ -31,9 +31,12 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
             builder.Services.AddScoped<GetAllStudentUseCase<Student, StudentViewModel>>();
             builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
+            builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
+            builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
 
             // Mapper
-            builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, StudentMapper>();
+            builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, CreateStudentMapper>();
+            builder.Services.AddScoped<IMapper<UpdateStudentRequestDto, Student>, UpdateStudentMapper>();
 
             // Presenters
             builder.Services.AddScoped<IPresenter<Student, StudentViewModel>, StudentPresenter>();

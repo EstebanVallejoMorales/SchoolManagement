@@ -4,7 +4,7 @@ using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.Mappers
 {
-    public class StudentMapper : IMapper<CreateStudentRequestDto, Student>
+    public class CreateStudentMapper : IMapper<CreateStudentRequestDto, Student>
     {
         public Student ToEntity(CreateStudentRequestDto dtoInput)
         {
