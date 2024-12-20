@@ -28,7 +28,7 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Student
 
                 var studentsViewModel = _presenter.Present(students);
                 responseDto.Data = studentsViewModel;
-
+                responseDto.Message = "Estudiantes cargados exitosamente";
             }
             catch (Exception ex)
             {

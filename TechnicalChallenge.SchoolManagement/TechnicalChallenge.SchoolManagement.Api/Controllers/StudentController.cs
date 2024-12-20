@@ -101,7 +101,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
 
         [HttpDelete]
         [Route("DeleteStudent/{studentId}")]
-        [ProducesResponseType(typeof(ResponseDto<StudentViewModel>), 200)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 200)]
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> DeleteStudent([FromRoute] int studentId)
         {
