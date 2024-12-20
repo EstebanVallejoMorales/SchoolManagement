@@ -38,15 +38,5 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
                 Name = student.Name
             };
         }
-
-        //public ResponseDtoViewModel<int> Present(ResponseDto<int> responseDto)
-        //{
-        //    return new ResponseDtoViewModel<int>
-        //    {
-        //        Data = responseDto.Data,
-        //        Message = responseDto.Message,
-        //        Errors = responseDto.Errors
-        //    };
-        //}
     }
 }

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Presenters", "TechnicalChallenge.SchoolManagement.Presenters\TechnicalChallenge.SchoolManagement.Presenters.csproj", "{BC292C87-664A-45E3-A56E-F54EC762D1CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalChallenge.SchoolManagement.Mappers", "TechnicalChallenge.SchoolManagement.Mappers\TechnicalChallenge.SchoolManagement.Mappers.csproj", "{235B06A8-493F-41E0-B490-5289930DCC11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{BC292C87-664A-45E3-A56E-F54EC762D1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC292C87-664A-45E3-A56E-F54EC762D1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC292C87-664A-45E3-A56E-F54EC762D1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{235B06A8-493F-41E0-B490-5289930DCC11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{235B06A8-493F-41E0-B490-5289930DCC11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{235B06A8-493F-41E0-B490-5289930DCC11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{235B06A8-493F-41E0-B490-5289930DCC11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +84,6 @@ Global
 		{F3BF11D9-2F46-462C-AB64-B8466F074855} = {7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}
 		{E1F49FBD-D221-4F5D-881C-6A18944EE5CE} = {B3D34C94-573B-45C3-B1F0-C7EF8B547EC1}
 		{BC292C87-664A-45E3-A56E-F54EC762D1CC} = {7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}
+		{235B06A8-493F-41E0-B490-5289930DCC11} = {7D9A9B30-77A9-47E0-B1AA-5400C126D7E2}
 	EndGlobalSection
 EndGlobal

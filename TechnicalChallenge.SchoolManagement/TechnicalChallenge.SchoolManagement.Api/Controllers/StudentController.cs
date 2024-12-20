@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.Dto.Student;
@@ -14,50 +15,55 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         private readonly ILogger<StudentController> _logger;
         private readonly GetStudentByIdUseCase<Student, StudentViewModel> _getStudentByIdUseCase;
         private readonly GetAllStudentUseCase<Student, StudentViewModel> _getAllStudentsUseCase;
-        private readonly CreateStudentUseCase _createStudentUseCase;
+        private readonly CreateStudentUseCase<CreateStudentRequestDto> _createStudentUseCase;
 
         public StudentController(
             ILogger<StudentController> logger,
             GetAllStudentUseCase<Student, StudentViewModel> getAllStudentsUseCase,
             GetStudentByIdUseCase<Student, StudentViewModel> getStudentByIdUseCase,
-            CreateStudentUseCase createStudentUseCase)
+            CreateStudentUseCase<CreateStudentRequestDto> createStudentUseCase)
         {
             _logger = logger;
             _getStudentByIdUseCase = getStudentByIdUseCase;
             _createStudentUseCase = createStudentUseCase;
+            _getAllStudentsUseCase = getAllStudentsUseCase;
         }
 
-        [HttpGet(Name = "GetAllStudents")]
-        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
+        [HttpGet]
+        [Route("GetAllStudents")]
+        [ProducesResponseType(typeof(ResponseDto<IEnumerable<Student>>), 200)]
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> GetAllStudents()
         {
-            var students = await _getAllStudentsUseCase.ExecuteAsync();
-            if (students == null || !students.Any())
+            var responseDto = await _getAllStudentsUseCase.ExecuteAsync();
+            if (responseDto.Data == null || !responseDto.Data.Any())
             {
-                return NotFound("No students found.");
+                return NotFound(responseDto);
             }
-            return Ok(students);
+            return Ok(responseDto);
         }
 
-        [HttpGet(Name = "GetStudentById")]
-        [ProducesResponseType(typeof(Student), 200)]
+        [HttpGet]
+        [Route("GetAllStudents/{studentId}")]
+        [ProducesResponseType(typeof(ResponseDto<StudentViewModel>), 200)]
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> GetStudents([FromRoute] int studentId)
         {
-            var student = await _getStudentByIdUseCase.ExecuteAsync(studentId);
-            if (student == null)
+            var responseDto = await _getStudentByIdUseCase.ExecuteAsync(studentId);
+            if (responseDto.Data == null)
             {
-                return NotFound("No student found.");
+                return NotFound(responseDto);
             }
-            return Ok(student);
+            return Ok(responseDto);
         }
 
-        [HttpPost(Name = "CreateStudent")]
+        [HttpPost]
+        [Route("CreateStudent")]
+        [ProducesResponseType(typeof(ResponseDto<int>), 200)]
+        [ProducesResponseType(typeof(ObjectResult), 500)]
         public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequestDto createStudentDto)
         {
             ResponseDto<int> responseDto;
-
             try
             {
                 responseDto = await _createStudentUseCase.ExecuteAsync(createStudentDto);
@@ -66,8 +72,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             {
                 return new ObjectResult(ex) {StatusCode = 500 };
             }
-
-            return Ok(responseDto);
+            return Created(string.Empty, responseDto);
         }
     }
 }

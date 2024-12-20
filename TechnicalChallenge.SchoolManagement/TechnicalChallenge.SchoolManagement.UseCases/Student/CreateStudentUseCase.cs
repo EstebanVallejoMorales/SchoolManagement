@@ -10,34 +10,38 @@ using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Student
 {
-    public class CreateStudentUseCase
+    public class CreateStudentUseCase<TDtoInput>
     {
         private readonly IRepository<Entities.Student> _studentRepository;
+        private readonly IMapper<TDtoInput, Entities.Student> _mapper;
 
-        public CreateStudentUseCase(IRepository<Entities.Student> studentRepository)
+        public CreateStudentUseCase(IRepository<Entities.Student> studentRepository, IMapper<TDtoInput, Entities.Student> mapper)
         {
             _studentRepository = studentRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ResponseDto<int>> ExecuteAsync(CreateStudentRequestDto createStudentRequestDto)
+        public async Task<ResponseDto<int>> ExecuteAsync(TDtoInput createStudentRequestDto)
         {
             ResponseDto<int> responseDto = new ResponseDto<int>();
-
-            var student = new Entities.Student 
+            try
             {
-                GenderId = createStudentRequestDto.GenderId,
-                Name = createStudentRequestDto.Name,
-                LastName = createStudentRequestDto.LastName
-            };
-            int responseInt = await _studentRepository.AddAsync(student);
-            if (responseInt == 0)
+                Entities.Student student = _mapper.ToEntity(createStudentRequestDto);
+
+                int responseInt = await _studentRepository.AddAsync(student);
+                if (responseInt == 0)
+                {
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = "No se pudo crear el estudiante." });
+                }
+                else
+                {
+                    responseDto.Message = "Estudiante creado exitosamente";
+                    responseDto.Data = responseInt;
+                }
+            }
+            catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = "No se pudo crear el estudiante." });
-            }
-            else
-            {
-                responseDto.Message = "Estudiante creado exitosamente";
-                responseDto.Data = responseInt;
             }
             return responseDto;
         }

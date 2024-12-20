@@ -62,13 +62,20 @@ namespace TechnicalChallenge.SchoolManagement.Repository
         public async Task<Student?> GetByIdAsync(int id)
         {
             var studentModel = await _dbContext.Students.FindAsync(id);
-            return new Student
+            if (studentModel != null)
             {
-                GenderId = studentModel.GenderId,
-                Name = studentModel.Name,
-                LastName = studentModel.LastName,
-                Id = studentModel.Id
-            };
+                return new Student
+                {
+                    GenderId = studentModel.GenderId,
+                    Name = studentModel.Name,
+                    LastName = studentModel.LastName,
+                    Id = studentModel.Id
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int> DeleteAsync(int studentId)

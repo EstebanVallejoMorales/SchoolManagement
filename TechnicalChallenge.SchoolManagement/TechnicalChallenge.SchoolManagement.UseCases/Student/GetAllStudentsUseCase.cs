@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Student
@@ -18,10 +19,25 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Student
             _presenter = presenter;
         }
 
-        public async Task<IEnumerable<TOutput>> ExecuteAsync()
+        public async Task<ResponseDto<IEnumerable<TOutput>>> ExecuteAsync()
         {
-            var students = await _studentRepository.GetAllAsync();
-            return _presenter.Present(students);
+            ResponseDto<IEnumerable<TOutput>> responseDto = new ResponseDto<IEnumerable<TOutput>>();
+            try
+            {
+                var students = await _studentRepository.GetAllAsync();
+
+                var studentsViewModel = _presenter.Present(students);
+                responseDto.Data = studentsViewModel;
+
+            }
+            catch (Exception ex)
+            {
+                responseDto.Errors.Add(new Dto.Error.ErrorDto
+                {
+                    Message = $"Ocurrió un error al tratar de obtener los estudiantes"
+                });
+            }
+            return responseDto;
         }
     }
 }

@@ -1,7 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using TechnicalChallenge.SchoolManagement.Data;
+using TechnicalChallenge.SchoolManagement.Dto.Student;
 using TechnicalChallenge.SchoolManagement.Entities;
+using TechnicalChallenge.SchoolManagement.Mappers;
 using TechnicalChallenge.SchoolManagement.Models;
 using TechnicalChallenge.SchoolManagement.Presenters.Presenters;
 using TechnicalChallenge.SchoolManagement.Presenters.Student;
@@ -28,7 +30,10 @@ namespace TechnicalChallenge.SchoolManagement.Api
             // Use Cases
             builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
             builder.Services.AddScoped<GetAllStudentUseCase<Student, StudentViewModel>>();
-            builder.Services.AddScoped<CreateStudentUseCase>();
+            builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
+
+            // Mapper
+            builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, StudentMapper>();
 
             // Presenters
             builder.Services.AddScoped<IPresenter<Student, StudentViewModel>, StudentPresenter>();
