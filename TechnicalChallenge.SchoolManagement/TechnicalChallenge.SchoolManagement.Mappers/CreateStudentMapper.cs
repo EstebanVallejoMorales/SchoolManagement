@@ -12,7 +12,8 @@ namespace TechnicalChallenge.SchoolManagement.Mappers
             {
                 Name = dtoInput.Name,
                 LastName = dtoInput.LastName,
-                GenderId = dtoInput.GenderId
+                GenderId = dtoInput.GenderId,
+                BirthDate = dtoInput.BirthDate
             };
         }
     }

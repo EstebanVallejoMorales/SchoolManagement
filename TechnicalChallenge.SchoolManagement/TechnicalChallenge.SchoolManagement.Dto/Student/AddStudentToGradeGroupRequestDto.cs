@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Dto.Student
 {
-    internal class AddStudentToGradeGroupRequest
+    public class AddStudentToGradeGroupRequestDto
     {
+        public int StudentId { get; set; }
+        public int GradeGroupId { get; set; }
     }
 }

@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechnicalChallenge.SchoolManagement.Dto.Teacher
+namespace TechnicalChallenge.SchoolManagement.Presenters.ViewModels
 {
-    public class CreateTeacherRequestDto
+    public class GroupViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string LastName { get; set; }
-        public int GenderId { get; set; }
     }
 }

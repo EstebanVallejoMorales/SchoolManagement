@@ -18,6 +18,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         private readonly GetAllStudentUseCase<Student, StudentViewModel> _getAllStudentsUseCase;
         private readonly CreateStudentUseCase<CreateStudentRequestDto> _createStudentUseCase;
         private readonly UpdateStudentUseCase<UpdateStudentRequestDto> _updateStudentUseCase;
+        private readonly AddStudentToGradeGroupUseCase<AddStudentToGradeGroupRequestDto> _addStudentToGradeGroupUseCase;
 
         public StudentController(
             ILogger<StudentController> logger,
@@ -25,7 +26,8 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             GetAllStudentUseCase<Student, StudentViewModel> getAllStudentsUseCase,
             GetStudentByIdUseCase<Student, StudentViewModel> getStudentByIdUseCase,            
             UpdateStudentUseCase<UpdateStudentRequestDto> updateStudentUseCase,
-            DeleteStudentUseCase<Student> deleteStudentUseCase)
+            DeleteStudentUseCase<Student> deleteStudentUseCase,
+            AddStudentToGradeGroupUseCase<AddStudentToGradeGroupRequestDto> addStudentToGradeGroupUseCase)
         {
             _logger = logger;
             _getStudentByIdUseCase = getStudentByIdUseCase;
@@ -33,12 +35,13 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             _getAllStudentsUseCase = getAllStudentsUseCase;
             _deleteStudentUseCase = deleteStudentUseCase;
             _updateStudentUseCase = updateStudentUseCase;
+            _addStudentToGradeGroupUseCase = addStudentToGradeGroupUseCase;
         }
 
         [HttpGet]
         [Route("GetAllStudents")]
         [ProducesResponseType(typeof(ResponseDto<IEnumerable<StudentViewModel>>), 200)]
-        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(ResponseDto<IEnumerable<StudentViewModel>>), 404)]
         public async Task<IActionResult> GetAllStudents()
         {
             var responseDto = await _getAllStudentsUseCase.ExecuteAsync();
@@ -111,6 +114,24 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
                 return NotFound(responseDto);
             }
             return Ok(responseDto);
+        }
+
+        [HttpPost]
+        [Route("AddStudentToGradeGroup")]
+        [ProducesResponseType(typeof(ResponseDto<int>), 200)]
+        [ProducesResponseType(typeof(ProblemDetails), 500)]
+        public async Task<IActionResult> CreaAddStudentToGradeGroup([FromBody] AddStudentToGradeGroupRequestDto addStudentToGradeGroupRequestDto)
+        {
+            ResponseDto<int> responseDto;
+            try
+            {
+                responseDto = await _addStudentToGradeGroupUseCase.ExecuteAsync(addStudentToGradeGroupRequestDto);
+            }
+            catch (Exception ex)
+            {
+                return new ObjectResult(ex) { StatusCode = 500 };
+            }
+            return Created(string.Empty, responseDto);
         }
     }
 }

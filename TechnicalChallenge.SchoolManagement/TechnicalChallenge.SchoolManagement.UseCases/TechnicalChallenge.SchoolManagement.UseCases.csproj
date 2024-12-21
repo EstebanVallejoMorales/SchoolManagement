@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Grade\" />
+    <Folder Include="Group\" />
   </ItemGroup>
 
   <ItemGroup>

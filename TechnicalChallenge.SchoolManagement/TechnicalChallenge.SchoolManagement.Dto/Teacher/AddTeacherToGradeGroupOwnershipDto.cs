@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Dto.Teacher
 {
-    internal class AssignTeacherToGradeGroup
+    internal class AddTeacherToGradeGroupOwnershipDto
     {
     }
 }

@@ -22,7 +22,8 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             {
                 GenderId = student.GenderId,
                 Name = student.Name,
-                LastName = student.LastName
+                LastName = student.LastName,
+                BirthDate = student.BirthDate
             };
 
             await _dbContext.Students.AddAsync(studentModel);
@@ -44,21 +45,23 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             studentFound.Name = student.Name;
             studentFound.LastName = student.LastName;
             studentFound.GenderId = student.GenderId;
+            student.BirthDate = student.BirthDate;
             updatedElements = await _dbContext.SaveChangesAsync();
             return updatedElements;
         }
 
         public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            return await _dbContext.Students.Select(s => new Student 
+            return await _dbContext.Students.Select(s => new Student
             {
                 Id = s.Id,
                 Name = s.Name,
                 LastName = s.LastName,
-                GenderId= s.GenderId,
-                Gender = new Gender 
+                GenderId = s.GenderId,
+                BirthDate = s.BirthDate,
+                Gender = new Gender
                 {
-                    Id= s.GenderId,
+                    Id = s.GenderId,
                     Name = s.Gender.Name
                 }
             }).ToListAsync();
@@ -66,7 +69,7 @@ namespace TechnicalChallenge.SchoolManagement.Repository
 
         public async Task<Student?> GetByIdAsync(int id)
         {
-            var studentModel = await _dbContext.Students.FindAsync(id);
+            var studentModel = await _dbContext.Students.Include(s => s.Gender).FirstOrDefaultAsync(p => p.Id == id);
             if (studentModel != null)
             {
                 return new Student
@@ -74,7 +77,13 @@ namespace TechnicalChallenge.SchoolManagement.Repository
                     GenderId = studentModel.GenderId,
                     Name = studentModel.Name,
                     LastName = studentModel.LastName,
-                    Id = studentModel.Id
+                    Id = studentModel.Id,
+                    BirthDate = studentModel.BirthDate,
+                    Gender = new Gender
+                    {
+                        Id = studentModel.GenderId,
+                        Name = studentModel.Gender.Name
+                    }
                 };
             }
             else
@@ -92,7 +101,7 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             {
                 throw new Exception("Student not found");
             }
-            
+
             _dbContext.Students.Remove(student);
 
             removedElements = await _dbContext.SaveChangesAsync();

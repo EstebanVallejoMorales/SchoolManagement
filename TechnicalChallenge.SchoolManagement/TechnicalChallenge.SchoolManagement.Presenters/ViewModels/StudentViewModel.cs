@@ -9,6 +9,6 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Student
         public string LastName { get; set; }
         public int GenderId { get; set; }
         public string GenderName { get; set; }
-        public DateTime BirthDay { get; set; }
+        public string BirthDate { get; set; }
     }
 }

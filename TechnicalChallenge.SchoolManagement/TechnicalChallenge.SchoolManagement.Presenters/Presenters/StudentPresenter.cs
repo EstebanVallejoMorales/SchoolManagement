@@ -15,14 +15,14 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
     {
         public IEnumerable<StudentViewModel> Present(IEnumerable<Entities.Student> students)
         {
-            return students.Select(student => new StudentViewModel 
+            return students.Select(student => new StudentViewModel
             {
                 Id = student.Id,
-                GenderId = student.GenderId,                
+                GenderId = student.GenderId,
                 LastName = student.LastName,
                 Name = student.Name,
                 GenderName = student.Gender.Name,
-                BirthDay = student.BirthDate
+                BirthDate = student.BirthDate.ToShortDateString()
             });
         }
 

@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
-using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
-namespace TechnicalChallenge.SchoolManagement.UseCases.Student
+namespace TechnicalChallenge.SchoolManagement.UseCases.Interfaces
 {
-    public class GetAllStudentUseCase<TInputEntity, TOutput>
+    public class GetAllGroupsUseCase<TInputEntity, TOutput>
     {
-        private readonly IRepository<TInputEntity> _studentRepository;
+        private readonly IRepository<TInputEntity> _groupRepository;
         private readonly IPresenter<TInputEntity, TOutput> _presenter;
 
-        public GetAllStudentUseCase(IRepository<TInputEntity> studentRepository, IPresenter<TInputEntity, TOutput> presenter)
+        public GetAllGroupsUseCase(IRepository<TInputEntity> studentRepository, IPresenter<TInputEntity, TOutput> presenter)
         {
-            _studentRepository = studentRepository;
+            _groupRepository = studentRepository;
             _presenter = presenter;
         }
 
@@ -24,24 +23,24 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Student
             ResponseDto<IEnumerable<TOutput>> responseDto = new ResponseDto<IEnumerable<TOutput>>();
             try
             {
-                var students = await _studentRepository.GetAllAsync();
+                var students = await _groupRepository.GetAllAsync();
 
                 var studentsViewModel = _presenter.Present(students);
                 responseDto.Data = studentsViewModel;
                 if (!responseDto.Data.Any())
                 {
-                    responseDto.Message = "No se encontraron estudiantes.";
+                    responseDto.Message = "No se encontraron grupos.";
                 }
                 else
                 {
-                    responseDto.Message = "Estudiantes cargados exitosamente"; 
+                    responseDto.Message = "Grupos cargados exitosamente";
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener los estudiantes"
+                    Message = $"Ocurrió un error al tratar de obtener los grupos"
                 });
             }
             return responseDto;
