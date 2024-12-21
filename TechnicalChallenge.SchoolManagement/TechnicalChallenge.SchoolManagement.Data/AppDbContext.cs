@@ -20,8 +20,10 @@ namespace TechnicalChallenge.SchoolManagement.Data
         public DbSet<GradeModel> Grades { get; set; }
         public DbSet<GenderModel> Genders { get; set; }
         public DbSet<GroupModel> Groups { get; set; }
-        public DbSet<StudentGradeModel> StudentGrade { get; set; }
-        public DbSet<TeacherAssignmentModel> TeacherAssignment { get; set; }
+        public DbSet<GradeGroupModel> GradeGroups { get; set; }
+        public DbSet<StudentGradeGroupModel> StudentGradeGroups { get; set; }
+        public DbSet<TeacherGradeGroupOwnershipModel> TeacherGradeGroupOwnerships { get; set; }
+        public DbSet<TeacherGradeGroupClassAssignmentModel> TeacherGradeGroupClassAssignments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,85 +37,113 @@ namespace TechnicalChallenge.SchoolManagement.Data
             modelBuilder.Entity<GradeModel>().ToTable("Grade");
             modelBuilder.Entity<GenderModel>().ToTable("Gender");
             modelBuilder.Entity<GroupModel>().ToTable("Group");
-            modelBuilder.Entity<TeacherAssignmentModel>().ToTable("TeacherAssignment");
-            modelBuilder.Entity<StudentGradeModel>().ToTable("StudentGrade");
+            modelBuilder.Entity<GradeGroupModel>().ToTable("GradeGroup");
+            modelBuilder.Entity<StudentGradeGroupModel>().ToTable("StudentGradeGroup");
+            modelBuilder.Entity<TeacherGradeGroupClassAssignmentModel>().ToTable("TeacherGradeGroupClassAssignment");
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>().ToTable("TeacherGradeGroupOwnership");
 
-            // One-to-one relationship: Student -> StudentGradeModel
-            // A Student has one StudentGradeModel
-            // StudentGradeModel has a foreign key StudentId
-            modelBuilder.Entity<StudentModel>()
-                .HasOne(s => s.StudentGrade)
-                .WithOne(sg => sg.Student)
-                .HasForeignKey<StudentGradeModel>(sg => sg.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Many-to-one relationship: StudentGradeModel -> Grade
-            modelBuilder.Entity<StudentGradeModel>()
-                .HasOne(sg => sg.Grade)
-                .WithMany(g => g.StudentGrades)
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Many-to-one relationship: StudentGradeModel -> Group
-            modelBuilder.Entity<StudentGradeModel>()
-                .HasOne(sg => sg.Group)
-                .WithMany(grp => grp.StudentGrades)
-                .HasForeignKey(sg => sg.GroupId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Composite unique key for StudentGradeModel: A Student cannot belong to the same Grade more than once,
-            // even with a different Group. Prevents duplicates (StudentId, GradeId, GroupId)
-            modelBuilder.Entity<StudentGradeModel>()
-                .HasIndex(sg => new { sg.StudentId, sg.GradeId, sg.GroupId })
-                .IsUnique();
-
-            // Many-to-one relationship: TeacherAssignmentModel -> Teacher
-            modelBuilder.Entity<TeacherAssignmentModel>()
-                .HasOne(ta => ta.Teacher)
-                .WithMany(t => t.TeacherAssignments)
-                .HasForeignKey(ta => ta.TeacherId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Many-to-one relationship: TeacherAssignmentModel -> Grade
-            modelBuilder.Entity<TeacherAssignmentModel>()
-                .HasOne(ta => ta.Grade)
-                .WithMany(g => g.TeacherAssignments)
-                .HasForeignKey(ta => ta.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Many-to-one relationship: TeacherAssignmentModel -> Group
-            modelBuilder.Entity<TeacherAssignmentModel>()
-                .HasOne(ta => ta.Group)
-                .WithMany(grp => grp.TeacherAssignments)
-                .HasForeignKey(ta => ta.GroupId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Composite unique key for TeacherAssignmentModel to prevent duplicates (TeacherId, GradeId, GroupId)
-            modelBuilder.Entity<TeacherAssignmentModel>()
-                .HasIndex(ta => new { ta.TeacherId, ta.GradeId, ta.GroupId })
-                .IsUnique();
-
-            // Many-to-one relationship: Grade -> Teacher
-            modelBuilder.Entity<GradeModel>()
-                .HasOne(g => g.Teacher)
-                .WithMany(t => t.Grades)
-                .HasForeignKey(g => g.TeacherId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Many-to-one relationship: Student -> Gender
+            // Student -> Gender
             modelBuilder.Entity<StudentModel>()
                 .HasOne(s => s.Gender)
                 .WithMany(g => g.Students)
                 .HasForeignKey(s => s.GenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Many-to-one relationship: Teacher -> Gender
+            // Teacher -> Gender
             modelBuilder.Entity<TeacherModel>()
                 .HasOne(t => t.Gender)
                 .WithMany(g => g.Teachers)
                 .HasForeignKey(t => t.GenderId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+            // GradeGroup: Composite Key
+            modelBuilder.Entity<GradeGroupModel>()
+                .HasIndex(gg => new { gg.GradeId, gg.GroupId })
+                .IsUnique();
+
+            // StudentGradeGroup: Composite Key
+            modelBuilder.Entity<StudentGradeGroupModel>()
+                .HasIndex(sgg => new { sgg.StudentId, sgg.GradeGroupId })
+                .IsUnique();
+
+            // Relationships
+
+            // GradeGroup -> Grade
+            modelBuilder.Entity<GradeGroupModel>()
+                .HasOne(gg => gg.Grade)
+                .WithMany(g => g.GradeGroups)
+                .HasForeignKey(gg => gg.GradeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // GradeGroup -> Group
+            modelBuilder.Entity<GradeGroupModel>()
+                .HasOne(gg => gg.Group)
+                .WithMany(grp => grp.GradeGroups)
+                .HasForeignKey(gg => gg.GroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // StudentGradeGroup -> Student
+            modelBuilder.Entity<StudentGradeGroupModel>()
+                .HasOne(sgg => sgg.Student)
+                .WithMany(s => s.StudentGradeGroups)
+                .HasForeignKey(sgg => sgg.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // StudentGradeGroup -> GradeGroup
+            modelBuilder.Entity<StudentGradeGroupModel>()
+                .HasOne(sgg => sgg.GradeGroup)
+                .WithMany(gg => gg.StudentGradeGroups)
+                .HasForeignKey(sgg => sgg.GradeGroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TeacherGradeGroupOwnership -> Teacher
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>()
+                .HasOne(tgo => tgo.Teacher)
+                .WithMany(t => t.TeacherGradeGroupOwnerships)
+                .HasForeignKey(tgo => tgo.TeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TeacherGradeGroupOwnership -> GradeGroup
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>()
+                .HasOne(tgo => tgo.GradeGroup)
+                .WithMany(gg => gg.TeacherGradeGroupOwnerships)
+                .HasForeignKey(tgo => tgo.GradeGroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TeacherGradeGroupOwnership: Composite Key
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>()
+                .HasIndex(tgo => new { tgo.TeacherId, tgo.GradeGroupId })
+                .IsUnique();
+
+            // TeacherGradeGroupOwnership: Unique TeacherId
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>()
+                .HasIndex(tgo => tgo.TeacherId)
+                .IsUnique();
+
+            // TeacherGradeGroupOwnership: Unique GradeGroupId
+            modelBuilder.Entity<TeacherGradeGroupOwnershipModel>()
+                .HasIndex(tgo => tgo.GradeGroupId)
+                .IsUnique();
+
+            // TeacherGradeGroupClassAssignment -> Teacher
+            modelBuilder.Entity<TeacherGradeGroupClassAssignmentModel>()
+                .HasOne(tgca => tgca.Teacher)
+                .WithMany(t => t.TeacherGradeGroupClassAssignments)
+                .HasForeignKey(tgca => tgca.TeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TeacherGradeGroupClassAssignment -> GradeGroup
+            modelBuilder.Entity<TeacherGradeGroupClassAssignmentModel>()
+                .HasOne(tgca => tgca.GradeGroup)
+                .WithMany(gg => gg.TeacherGradeGroupClassAssignments)
+                .HasForeignKey(tgca => tgca.GradeGroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TeacherGradeGroupClassAssignment: Composite Key
+            modelBuilder.Entity<TeacherGradeGroupClassAssignmentModel>()
+                .HasIndex(tgca => new { tgca.TeacherId, tgca.GradeGroupId })
+                .IsUnique();
+
             base.OnModelCreating(modelBuilder);
 
         }

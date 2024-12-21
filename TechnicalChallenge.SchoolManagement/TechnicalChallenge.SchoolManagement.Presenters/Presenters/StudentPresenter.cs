@@ -21,7 +21,8 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
                 GenderId = student.GenderId,                
                 LastName = student.LastName,
                 Name = student.Name,
-                GenderName = student.Gender.Name
+                GenderName = student.Gender.Name,
+                BirthDay = student.BirthDate
             });
         }
 

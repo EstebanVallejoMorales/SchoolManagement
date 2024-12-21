@@ -12,5 +12,6 @@ namespace TechnicalChallenge.SchoolManagement.Dto.Student
         public string Name { get; set; }
         public string LastName { get; set; }
         public int GenderId { get; set; }
+        public DateTime BirthDay { get; set; }
     }
 }

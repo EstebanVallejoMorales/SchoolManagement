@@ -12,5 +12,6 @@ namespace TechnicalChallenge.SchoolManagement.Entities
         public string Name { get; set; }
         public string LastName { get; set; }
         public int GenderId { get; set; }
+        public Gender Gender { get; set; }
     }
 }

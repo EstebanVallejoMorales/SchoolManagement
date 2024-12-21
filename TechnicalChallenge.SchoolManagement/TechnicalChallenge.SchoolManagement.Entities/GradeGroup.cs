@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Entities
 {
-    public class StudentGrade
+    public class GradeGroup
     {
         public int Id { get; set; }
-        public int StudentId { get; set; }
         public int GradeId { get; set; }
+        public Grade Grade { get; set; }
         public int GroupId { get; set; }
+        public Group Group { get; set; }
     }
 }

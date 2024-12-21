@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Models
 {
-    public class StudentGradeModel
+    public class GradeGroupModel
     {
         public int Id { get; set; }
-
-        // Student relationship
-        public int StudentId { get; set; }
-        public StudentModel Student { get; set; }
-
-        // Grade relationship
         public int GradeId { get; set; }
         public GradeModel Grade { get; set; }
-
-        // Group relationship
         public int GroupId { get; set; }
         public GroupModel Group { get; set; }
+
+        // Relationship: StudentGradeGroup
+        public ICollection<StudentGradeGroupModel> StudentGradeGroups { get; set; }
+        public ICollection<TeacherGradeGroupOwnershipModel> TeacherGradeGroupOwnerships { get; set; }
+        public ICollection<TeacherGradeGroupClassAssignmentModel> TeacherGradeGroupClassAssignments { get; set; }
     }
 }
