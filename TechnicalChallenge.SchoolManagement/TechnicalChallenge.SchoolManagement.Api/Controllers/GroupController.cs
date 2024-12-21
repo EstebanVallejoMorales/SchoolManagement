@@ -3,7 +3,7 @@ using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.Entities;
 using TechnicalChallenge.SchoolManagement.Presenters.Student;
 using TechnicalChallenge.SchoolManagement.Presenters.ViewModels;
-using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
+using TechnicalChallenge.SchoolManagement.UseCases.Group;
 using TechnicalChallenge.SchoolManagement.UseCases.Student;
 
 namespace TechnicalChallenge.SchoolManagement.Api.Controllers

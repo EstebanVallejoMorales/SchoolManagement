@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Grade\" />
-    <Folder Include="Group\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TechnicalChallenge.SchoolManagement.Dto\TechnicalChallenge.SchoolManagement.Dto.csproj" />
     <ProjectReference Include="..\TechnicalChallenge.SchoolManagement.Entities\TechnicalChallenge.SchoolManagement.Entities.csproj" />
   </ItemGroup>
