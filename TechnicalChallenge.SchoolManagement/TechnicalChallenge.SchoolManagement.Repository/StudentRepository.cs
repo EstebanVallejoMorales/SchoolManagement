@@ -45,7 +45,7 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             studentFound.Name = student.Name;
             studentFound.LastName = student.LastName;
             studentFound.GenderId = student.GenderId;
-            student.BirthDate = student.BirthDate;
+            studentFound.BirthDate = student.BirthDate;
             updatedElements = await _dbContext.SaveChangesAsync();
             return updatedElements;
         }
