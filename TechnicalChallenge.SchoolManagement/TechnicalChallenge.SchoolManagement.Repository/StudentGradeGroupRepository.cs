@@ -23,7 +23,7 @@ namespace TechnicalChallenge.SchoolManagement.Repository
         public async Task<int> AddAsync(StudentGradeGroup studentGradeGroup)
         {
             int createdElements;
-            var gradeGroupModel = new StudentGradeGroup
+            var gradeGroupModel = new StudentGradeGroupModel
             {
                 StudentId = studentGradeGroup.StudentId,
                 GradeGroupId = studentGradeGroup.GradeGroupId

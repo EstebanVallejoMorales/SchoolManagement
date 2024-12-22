@@ -10,6 +10,7 @@ using TechnicalChallenge.SchoolManagement.Presenters.Student;
 using TechnicalChallenge.SchoolManagement.Presenters.ViewModels;
 using TechnicalChallenge.SchoolManagement.Repository;
 using TechnicalChallenge.SchoolManagement.UseCases.Grade;
+using TechnicalChallenge.SchoolManagement.UseCases.GradeGroup;
 using TechnicalChallenge.SchoolManagement.UseCases.Group;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 using TechnicalChallenge.SchoolManagement.UseCases.Student;
@@ -34,6 +35,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IRepository<StudentGradeGroup>, StudentGradeGroupRepository>();
             builder.Services.AddScoped<IRepository<Group>, GroupRepository>();
             builder.Services.AddScoped<IRepository<Grade>, GradeRepository>();
+            builder.Services.AddScoped<IRepository<GradeGroup>, GradeGroupRepository>();
 
             // Use Cases
 
@@ -67,6 +69,13 @@ namespace TechnicalChallenge.SchoolManagement.Api
             //builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
             //builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
 
+            //  GradeGroup
+            //builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
+            builder.Services.AddScoped<GetAllGradeGroupsUseCase<GradeGroup, GradeGroupViewModel>>();
+            //builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
+            //builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
+            //builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
+
 
             // Mapper
             builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, CreateStudentMapper>();
@@ -77,6 +86,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IPresenter<Student, StudentViewModel>, StudentPresenter>();
             builder.Services.AddScoped<IPresenter<Group, GroupViewModel>, GroupPresenter>();
             builder.Services.AddScoped<IPresenter<Grade, GradeViewModel>, GradePresenter>();
+            builder.Services.AddScoped<IPresenter<GradeGroup, GradeGroupViewModel>, GradeGroupPresenter>();
 
 
             builder.Services.AddCors(options =>

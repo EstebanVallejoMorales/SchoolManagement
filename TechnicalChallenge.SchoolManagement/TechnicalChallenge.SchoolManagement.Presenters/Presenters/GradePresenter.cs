@@ -11,9 +11,9 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
 {
     public class GradePresenter : IPresenter<Grade, GradeViewModel>
     {
-        public IEnumerable<GradeViewModel> Present(IEnumerable<Grade> Grades)
+        public IEnumerable<GradeViewModel> Present(IEnumerable<Grade> grades)
         {
-            return Grades.Select(student => new GradeViewModel
+            return grades.Select(student => new GradeViewModel
             {
                 Id = student.Id,
                 Name = student.Name

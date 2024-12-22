@@ -26,9 +26,9 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Student
             ResponseDto<int> responseDto = new ResponseDto<int>();
             try
             {
-                Entities.StudentGradeGroup student = _mapper.ToEntity(assignStudentToGradeGroupDto);
+                Entities.StudentGradeGroup studentGradeGroup = _mapper.ToEntity(assignStudentToGradeGroupDto);
 
-                int responseInt = await _gradeStudentGradeGroupRepository.AddAsync(student);
+                int responseInt = await _gradeStudentGradeGroupRepository.AddAsync(studentGradeGroup);
                 if (responseInt == 0)
                 {
                     responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = "No se pudo asignar el estudiante a un grupo." });

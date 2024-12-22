@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
-namespace TechnicalChallenge.SchoolManagement.UseCases.Group
+namespace TechnicalChallenge.SchoolManagement.UseCases.GradeGroup
 {
-    public class GetAllGroupsUseCase<TInputEntity, TOutput>
+    public class GetAllGradeGroupsUseCase<TInputEntity, TOutput>
     {
-        private readonly IRepository<TInputEntity> _groupRepository;
+        private readonly IRepository<TInputEntity> _gradeGroupRepository;
         private readonly IPresenter<TInputEntity, TOutput> _presenter;
 
-        public GetAllGroupsUseCase(IRepository<TInputEntity> groupRepository, IPresenter<TInputEntity, TOutput> presenter)
+        public GetAllGradeGroupsUseCase(IRepository<TInputEntity> gradeGroupRepository, IPresenter<TInputEntity, TOutput> presenter)
         {
-            _groupRepository = groupRepository;
+            _gradeGroupRepository = gradeGroupRepository;
             _presenter = presenter;
         }
 
@@ -24,24 +24,24 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Group
             ResponseDto<IEnumerable<TOutput>> responseDto = new ResponseDto<IEnumerable<TOutput>>();
             try
             {
-                var groups = await _groupRepository.GetAllAsync();
+                var gradeGroups = await _gradeGroupRepository.GetAllAsync();
 
-                var groupsViewModel = _presenter.Present(groups);
-                responseDto.Data = groupsViewModel;
+                var gradeGroupsViewModel = _presenter.Present(gradeGroups);
+                responseDto.Data = gradeGroupsViewModel;
                 if (!responseDto.Data.Any())
                 {
-                    responseDto.Message = "No se encontraron grupos.";
+                    responseDto.Message = "No se encontraron Grado-Grupos.";
                 }
                 else
                 {
-                    responseDto.Message = "Grupos cargados exitosamente.";
+                    responseDto.Message = "Grado-Grupos cargados exitosamente.";
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener los grupos."
+                    Message = $"Ocurrió un error al tratar de obtener los Grado-Grupos."
                 });
             }
             return responseDto;
