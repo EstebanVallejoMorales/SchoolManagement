@@ -19,6 +19,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         private readonly CreateTeacherUseCase<CreateTeacherRequestDto> _createTeacherUseCase;
         private readonly UpdateTeacherUseCase<UpdateTeacherRequestDto> _updateTeacherUseCase;
         private readonly AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto> _assignTeacherToGradeGroupClassUseCase;
+        private readonly AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto> _assignTeacherToGradeGroupOwnershipUseCase;
 
         public TeacherController(
             ILogger<TeacherController> logger,
@@ -27,7 +28,8 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             GetTeacherByIdUseCase<Teacher, TeacherViewModel> getTeacherByIdUseCase,
             UpdateTeacherUseCase<UpdateTeacherRequestDto> updateTeacherUseCase,
             DeleteTeacherUseCase<Teacher> deleteTeacherUseCase,
-            AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto> assignTeacherToGradeGroupClassUseCase
+            AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto> assignTeacherToGradeGroupClassUseCase,
+            AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto> assignTeacherToGradeGroupOwnershipUseCase
             )
         {
             _logger = logger;
@@ -37,6 +39,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             _deleteTeacherUseCase = deleteTeacherUseCase;
             _updateTeacherUseCase = updateTeacherUseCase;
             _assignTeacherToGradeGroupClassUseCase = assignTeacherToGradeGroupClassUseCase;
+            _assignTeacherToGradeGroupOwnershipUseCase = assignTeacherToGradeGroupOwnershipUseCase;
         }
 
         [HttpGet]
@@ -128,6 +131,24 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             try
             {
                 responseDto = await _assignTeacherToGradeGroupClassUseCase.ExecuteAsync(addTeacherToGradeGroupRequestDto);
+            }
+            catch (Exception ex)
+            {
+                StatusCode((int)HttpStatusCode.InternalServerError, responseDto);
+            }
+            return Created(string.Empty, responseDto);
+        }
+
+        [HttpPost]
+        [Route("AssignTeacherToGradeGroupOwnership")]
+        [ProducesResponseType(typeof(ResponseDto<int>), 200)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 500)]
+        public async Task<IActionResult> AssignTeacherToGradeGroupOwnership([FromBody] AssignTeacherToGradeGroupOwnershipRequestDto addTeacherToGradeGroupOwnershipRequestDto)
+        {
+            ResponseDto<int> responseDto = new ResponseDto<int>();
+            try
+            {
+                responseDto = await _assignTeacherToGradeGroupOwnershipUseCase.ExecuteAsync(addTeacherToGradeGroupOwnershipRequestDto);
             }
             catch (Exception ex)
             {

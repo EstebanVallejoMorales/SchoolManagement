@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Dto.Group
 {
-    public class CreateGroupRequestDto
+    public class UpdateGroupRequestDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

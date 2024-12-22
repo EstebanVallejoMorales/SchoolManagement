@@ -40,6 +40,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IRepository<Grade>, GradeRepository>();
             builder.Services.AddScoped<IRepository<GradeGroup>, GradeGroupRepository>();
             builder.Services.AddScoped<IRepository<TeacherGradeGroupClassAssignment>, TeacherGradeGroupClassAssignmentRespository>();
+            builder.Services.AddScoped<IRepository<TeacherGradeGroupOwnership>, TeacherGradeGroupOwnershipAssignmentRepository>();
 
             // Use Cases
 
@@ -58,6 +59,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<UpdateTeacherUseCase<UpdateTeacherRequestDto>>();
             builder.Services.AddScoped<DeleteTeacherUseCase<Teacher>>();
             builder.Services.AddScoped<AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto>>();
+            builder.Services.AddScoped<AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto>>();
 
             ////  Grade
             //builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
@@ -89,6 +91,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IMapper<CreateTeacherRequestDto, Teacher>, CreateTeacherMapper>();
             builder.Services.AddScoped<IMapper<UpdateTeacherRequestDto, Teacher>, UpdateTeacherMapper>();
             builder.Services.AddScoped<IMapper<AssignTeacherToGradeGroupClassRequestDto, TeacherGradeGroupClassAssignment>, AssignTeacherToGradeGroupClassMapper>();
+            builder.Services.AddScoped<IMapper<AssignTeacherToGradeGroupOwnershipRequestDto, TeacherGradeGroupOwnership>, AssignTeacherToGradeGroupOwnershipMapper>();
 
             // Presenters
             builder.Services.AddScoped<IPresenter<Student, StudentViewModel>, StudentPresenter>();

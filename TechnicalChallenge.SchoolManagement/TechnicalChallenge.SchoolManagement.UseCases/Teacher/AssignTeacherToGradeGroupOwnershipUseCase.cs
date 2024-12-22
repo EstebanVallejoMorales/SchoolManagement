@@ -8,26 +8,27 @@ using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Teacher
 {
-    public class AssignTeacherToGradeGroupClassUseCase<TDtoInput>
+    public class AssignTeacherToGradeGroupOwnershipUseCase<TDtoInput>
     {
-        private readonly IRepository<Entities.TeacherGradeGroupClassAssignment> _teacherGradeGroupClassAssignmentRespository;
-        private readonly IMapper<TDtoInput, Entities.TeacherGradeGroupClassAssignment> _mapper;
+        private readonly IRepository<Entities.TeacherGradeGroupOwnership> _teacherGradeGroupOwnershipRepository;
+        private readonly IMapper<TDtoInput, Entities.TeacherGradeGroupOwnership> _mapper;
 
-        public AssignTeacherToGradeGroupClassUseCase(IRepository<Entities.TeacherGradeGroupClassAssignment> teacherGradeGroupClassAssignmentRespository,
-            IMapper<TDtoInput, Entities.TeacherGradeGroupClassAssignment> mapper)
+        public AssignTeacherToGradeGroupOwnershipUseCase(IRepository<Entities.TeacherGradeGroupOwnership> teacherGradeGroupOwnershipRepository,
+            IMapper<TDtoInput, Entities.TeacherGradeGroupOwnership> mapper)
         {
-            _teacherGradeGroupClassAssignmentRespository = teacherGradeGroupClassAssignmentRespository;
+            _teacherGradeGroupOwnershipRepository = teacherGradeGroupOwnershipRepository;
             _mapper = mapper;
         }
 
-        public async Task<ResponseDto<int>> ExecuteAsync(TDtoInput assignTeacherClassRequestDto)
+        public async Task<ResponseDto<int>> ExecuteAsync(TDtoInput assignTeacherToGradeGroupOwnershipRequestRequestDto)
         {
             ResponseDto<int> responseDto = new ResponseDto<int>();
             try
             {
-                Entities.TeacherGradeGroupClassAssignment teacherGradeGroupClassAssignment = _mapper.ToEntity(assignTeacherClassRequestDto);
+                Entities.TeacherGradeGroupOwnership teacherGradeGroupClassAssignment = 
+                    _mapper.ToEntity(assignTeacherToGradeGroupOwnershipRequestRequestDto);
 
-                int responseInt = await _teacherGradeGroupClassAssignmentRespository.AddAsync(teacherGradeGroupClassAssignment);
+                int responseInt = await _teacherGradeGroupOwnershipRepository.AddAsync(teacherGradeGroupClassAssignment);
                 if (responseInt == 0)
                 {
                     responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = "No se pudo asignar el profesor a un Grado-Grupo." });

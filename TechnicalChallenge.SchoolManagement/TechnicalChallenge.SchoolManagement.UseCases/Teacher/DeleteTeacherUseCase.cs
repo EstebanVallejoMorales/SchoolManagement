@@ -37,7 +37,7 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Teacher
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener el profesor con id {id}"
+                    Message = $"Ocurrió un error al tratar de obtener el profesor con id {id}. Por favor, verifique que el profesor no esté asociado a algún grupo."
                 });
             }
             return responseDto;
