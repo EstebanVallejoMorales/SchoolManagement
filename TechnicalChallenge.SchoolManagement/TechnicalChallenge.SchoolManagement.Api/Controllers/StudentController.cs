@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.Dto.Student;
 using TechnicalChallenge.SchoolManagement.Entities;
@@ -55,7 +56,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [HttpGet]
         [Route("GetAllStudents/{studentId}")]
         [ProducesResponseType(typeof(ResponseDto<StudentViewModel>), 200)]
-        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(ResponseDto<StudentViewModel>), 404)]
         public async Task<IActionResult> GetStudents([FromRoute] int studentId)
         {
             var responseDto = await _getStudentByIdUseCase.ExecuteAsync(studentId);
@@ -69,17 +70,18 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [HttpPost]
         [Route("CreateStudent")]
         [ProducesResponseType(typeof(ResponseDto<int>), 200)]
-        [ProducesResponseType(typeof(ProblemDetails), 500)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 500)]
         public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequestDto createStudentDto)
         {
-            ResponseDto<int> responseDto;
+            ResponseDto<int> responseDto = new ResponseDto<int>();
             try
             {
                 responseDto = await _createStudentUseCase.ExecuteAsync(createStudentDto);
             }
             catch (Exception ex)
             {
-                return new ObjectResult(ex) {StatusCode = 500 };
+                
+                return StatusCode((int)HttpStatusCode.InternalServerError, responseDto);
             }
             return Created(string.Empty, responseDto);
         }
@@ -87,17 +89,17 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [HttpPut]
         [Route("UpdateStudent")]
         [ProducesResponseType(typeof(ResponseDto<int>), 200)]
-        [ProducesResponseType(typeof(ProblemDetails), 500)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 500)]
         public async Task<IActionResult> UpdateStudent([FromBody] UpdateStudentRequestDto updateStudentDto)
         {
-            ResponseDto<int> responseDto;
+            ResponseDto<int> responseDto = new ResponseDto<int>();
             try
             {
                 responseDto = await _updateStudentUseCase.ExecuteAsync(updateStudentDto);
             }
             catch (Exception ex)
             {
-                return Problem();
+                return StatusCode((int)HttpStatusCode.InternalServerError, responseDto);
             }
             return Created(string.Empty, responseDto);
         }
@@ -105,7 +107,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [HttpDelete]
         [Route("DeleteStudent/{studentId}")]
         [ProducesResponseType(typeof(ResponseDto<int>), 200)]
-        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 404)]
         public async Task<IActionResult> DeleteStudent([FromRoute] int studentId)
         {
             var responseDto = await _deleteStudentUseCase.ExecuteAsync(studentId);
@@ -119,17 +121,17 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [HttpPost]
         [Route("AddStudentToGradeGroup")]
         [ProducesResponseType(typeof(ResponseDto<int>), 200)]
-        [ProducesResponseType(typeof(ProblemDetails), 500)]
-        public async Task<IActionResult> CreaAddStudentToGradeGroup([FromBody] AddStudentToGradeGroupRequestDto addStudentToGradeGroupRequestDto)
+        [ProducesResponseType(typeof(ResponseDto<int>), 500)]
+        public async Task<IActionResult> AddStudentToGradeGroup([FromBody] AddStudentToGradeGroupRequestDto addStudentToGradeGroupRequestDto)
         {
-            ResponseDto<int> responseDto;
+            ResponseDto<int> responseDto = new ResponseDto<int>();
             try
             {
                 responseDto = await _addStudentToGradeGroupUseCase.ExecuteAsync(addStudentToGradeGroupRequestDto);
             }
             catch (Exception ex)
             {
-                return new ObjectResult(ex) { StatusCode = 500 };
+                StatusCode((int)HttpStatusCode.InternalServerError, responseDto);
             }
             return Created(string.Empty, responseDto);
         }

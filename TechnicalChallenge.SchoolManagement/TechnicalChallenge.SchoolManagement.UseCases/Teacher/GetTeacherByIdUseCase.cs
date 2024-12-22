@@ -7,42 +7,39 @@ using TechnicalChallenge.SchoolManagement.Dto.GenericResponse;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.UseCases.Teacher
-
 {
-    public class GetAllTeachersUseCase<TInputEntity, TOutput>
+    public class GetTeacherByIdUseCase<TInputEntity, TOutput> where TInputEntity : class
     {
         private readonly IRepository<TInputEntity> _teacherRepository;
         private readonly IPresenter<TInputEntity, TOutput> _presenter;
 
-        public GetAllTeachersUseCase(IRepository<TInputEntity> teacherRepository, IPresenter<TInputEntity, TOutput> presenter)
+        public GetTeacherByIdUseCase(IRepository<TInputEntity> teacherRepository, IPresenter<TInputEntity, TOutput> presenter)
         {
             _teacherRepository = teacherRepository;
             _presenter = presenter;
         }
 
-        public async Task<ResponseDto<IEnumerable<TOutput>>> ExecuteAsync()
+        public async Task<ResponseDto<TOutput?>> ExecuteAsync(int id)
         {
-            ResponseDto<IEnumerable<TOutput>> responseDto = new ResponseDto<IEnumerable<TOutput>>();
+            ResponseDto<TOutput?> responseDto = new ResponseDto<TOutput?>();
             try
             {
-                var teachers = await _teacherRepository.GetAllAsync();
-
-                var teachersViewModel = _presenter.Present(teachers);
-                responseDto.Data = teachersViewModel;
-                if (!responseDto.Data.Any())
+                var teacher = await _teacherRepository.GetByIdAsync(id);
+                if (teacher != null)
                 {
-                    responseDto.Message = "No se encontraron profesores.";
+                    var teacherViewModel = _presenter.Present(teacher);
+                    responseDto.Data = teacherViewModel;
                 }
                 else
                 {
-                    responseDto.Message = "Profesores cargados exitosamente.";
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se encontró el profesor con id {id}." });
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener los profesores."
+                    Message = $"Ocurrió un error al tratar de obtener el profesor con id {id}"
                 });
             }
             return responseDto;
