@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TechnicalChallenge.SchoolManagement.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,12 +25,25 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Grade",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grade", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Group",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,6 +58,7 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     GenderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -79,95 +94,131 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Grade",
+                name: "GradeGroup",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: false)
+                    GradeId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grade", x => x.Id);
+                    table.PrimaryKey("PK_GradeGroup", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Grade_Teacher_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Teacher",
+                        name: "FK_GradeGroup_Grade_GradeId",
+                        column: x => x.GradeId,
+                        principalTable: "Grade",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GradeGroup_Group_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentGrade",
+                name: "StudentGradeGroup",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(type: "int", nullable: false),
-                    GradeId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
+                    GradeGroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentGrade", x => x.Id);
+                    table.PrimaryKey("PK_StudentGradeGroup", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentGrade_Grade_GradeId",
-                        column: x => x.GradeId,
-                        principalTable: "Grade",
+                        name: "FK_StudentGradeGroup_GradeGroup_GradeGroupId",
+                        column: x => x.GradeGroupId,
+                        principalTable: "GradeGroup",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_StudentGrade_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_StudentGrade_Student_StudentId",
+                        name: "FK_StudentGradeGroup_Student_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherAssignment",
+                name: "TeacherGradeGroupClassAssignment",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
-                    GradeId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
+                    GradeGroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherAssignment", x => x.Id);
+                    table.PrimaryKey("PK_TeacherGradeGroupClassAssignment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_Grade_GradeId",
-                        column: x => x.GradeId,
-                        principalTable: "Grade",
+                        name: "FK_TeacherGradeGroupClassAssignment_GradeGroup_GradeGroupId",
+                        column: x => x.GradeGroupId,
+                        principalTable: "GradeGroup",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TeacherAssignment_Teacher_TeacherId",
+                        name: "FK_TeacherGradeGroupClassAssignment_Teacher_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teacher",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeacherGradeGroupOwnership",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TeacherId = table.Column<int>(type: "int", nullable: false),
+                    GradeGroupId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeacherGradeGroupOwnership", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeacherGradeGroupOwnership_GradeGroup_GradeGroupId",
+                        column: x => x.GradeGroupId,
+                        principalTable: "GradeGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeacherGradeGroupOwnership_Teacher_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teacher",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grade_TeacherId",
+                name: "IX_Grade_Name",
                 table: "Grade",
-                column: "TeacherId");
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeGroup_GradeId_GroupId",
+                table: "GradeGroup",
+                columns: new[] { "GradeId", "GroupId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeGroup_GroupId",
+                table: "GradeGroup",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Group_Name",
+                table: "Group",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Student_GenderId",
@@ -175,25 +226,14 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentGrade_GradeId",
-                table: "StudentGrade",
-                column: "GradeId");
+                name: "IX_StudentGradeGroup_GradeGroupId",
+                table: "StudentGradeGroup",
+                column: "GradeGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentGrade_GroupId",
-                table: "StudentGrade",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentGrade_StudentId",
-                table: "StudentGrade",
-                column: "StudentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentGrade_StudentId_GradeId_GroupId",
-                table: "StudentGrade",
-                columns: new[] { "StudentId", "GradeId", "GroupId" },
+                name: "IX_StudentGradeGroup_StudentId_GradeGroupId",
+                table: "StudentGradeGroup",
+                columns: new[] { "StudentId", "GradeGroupId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -202,19 +242,32 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_GradeId",
-                table: "TeacherAssignment",
-                column: "GradeId");
+                name: "IX_TeacherGradeGroupClassAssignment_GradeGroupId",
+                table: "TeacherGradeGroupClassAssignment",
+                column: "GradeGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_GroupId",
-                table: "TeacherAssignment",
-                column: "GroupId");
+                name: "IX_TeacherGradeGroupClassAssignment_TeacherId_GradeGroupId",
+                table: "TeacherGradeGroupClassAssignment",
+                columns: new[] { "TeacherId", "GradeGroupId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_TeacherId_GradeId_GroupId",
-                table: "TeacherAssignment",
-                columns: new[] { "TeacherId", "GradeId", "GroupId" },
+                name: "IX_TeacherGradeGroupOwnership_GradeGroupId",
+                table: "TeacherGradeGroupOwnership",
+                column: "GradeGroupId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeacherGradeGroupOwnership_TeacherId",
+                table: "TeacherGradeGroupOwnership",
+                column: "TeacherId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeacherGradeGroupOwnership_TeacherId_GradeGroupId",
+                table: "TeacherGradeGroupOwnership",
+                columns: new[] { "TeacherId", "GradeGroupId" },
                 unique: true);
         }
 
@@ -222,22 +275,28 @@ namespace TechnicalChallenge.SchoolManagement.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "StudentGrade");
+                name: "StudentGradeGroup");
 
             migrationBuilder.DropTable(
-                name: "TeacherAssignment");
+                name: "TeacherGradeGroupClassAssignment");
+
+            migrationBuilder.DropTable(
+                name: "TeacherGradeGroupOwnership");
 
             migrationBuilder.DropTable(
                 name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "GradeGroup");
+
+            migrationBuilder.DropTable(
+                name: "Teacher");
 
             migrationBuilder.DropTable(
                 name: "Grade");
 
             migrationBuilder.DropTable(
                 name: "Group");
-
-            migrationBuilder.DropTable(
-                name: "Teacher");
 
             migrationBuilder.DropTable(
                 name: "Gender");

@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using TechnicalChallenge.SchoolManagement.Data;
+using TechnicalChallenge.SchoolManagement.Dto.Grade;
 using TechnicalChallenge.SchoolManagement.Dto.Student;
 using TechnicalChallenge.SchoolManagement.Dto.Teacher;
 using TechnicalChallenge.SchoolManagement.Entities;
@@ -62,16 +63,16 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto>>();
 
             ////  Grade
-            //builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
+            builder.Services.AddScoped<GetGradeByIdUseCase<Grade, GradeViewModel>>();
             builder.Services.AddScoped<GetAllGradesUseCase<Grade, GradeViewModel>>();
-            //builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
-            //builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
-            //builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
+            builder.Services.AddScoped<CreateGradeUseCase<CreateGradeRequestDto>>();
+            builder.Services.AddScoped<UpdateGradeUseCase<UpdateGradeRequestDto>>();
+            builder.Services.AddScoped<DeleteGradeUseCase<Grade>>();
 
             ////  Group
-            //builder.Services.AddScoped<GetStudentByIdUseCase<Student, StudentViewModel>>();
+            //builder.Services.AddScoped<GetGroupByIdUseCase<Grade, GroupViewModel>>();
             builder.Services.AddScoped<GetAllGroupsUseCase<Group, GroupViewModel>>();
-            //builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
+            builder.Services.AddScoped<CreateGradeUseCase<CreateGradeRequestDto>>();
             //builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
             //builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
 
@@ -84,6 +85,9 @@ namespace TechnicalChallenge.SchoolManagement.Api
 
 
             // Mapper
+            builder.Services.AddScoped<IMapper<CreateGradeRequestDto, Grade>, CreateGradeMapper>();
+            builder.Services.AddScoped<IMapper<UpdateGradeRequestDto, Grade>, UpdateGradeMapper>();
+
             builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, CreateStudentMapper>();
             builder.Services.AddScoped<IMapper<UpdateStudentRequestDto, Student>, UpdateStudentMapper>();            
             builder.Services.AddScoped<IMapper<AddStudentToGradeGroupRequestDto, StudentGradeGroup>, AddStudentToGradeGroupMapper>();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechnicalChallenge.SchoolManagement.Dto.Grade
 {
-    public class CreateGradeRequestDto
+    public class UpdateGradeRequestDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

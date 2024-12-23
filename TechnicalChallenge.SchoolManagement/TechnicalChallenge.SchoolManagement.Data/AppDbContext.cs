@@ -27,7 +27,13 @@ namespace TechnicalChallenge.SchoolManagement.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"]);
+            optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"], options =>
+            {
+                options.EnableRetryOnFailure(
+                maxRetryCount: 5, // Número máximo de intentos
+                maxRetryDelay: TimeSpan.FromSeconds(10), // Tiempo máximo entre intentos
+                errorNumbersToAdd: null); 
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +47,16 @@ namespace TechnicalChallenge.SchoolManagement.Data
             modelBuilder.Entity<StudentGradeGroupModel>().ToTable("StudentGradeGroup");
             modelBuilder.Entity<TeacherGradeGroupClassAssignmentModel>().ToTable("TeacherGradeGroupClassAssignment");
             modelBuilder.Entity<TeacherGradeGroupOwnershipModel>().ToTable("TeacherGradeGroupOwnership");
+
+            // Grade unicity
+            modelBuilder.Entity<GradeModel>()
+                .HasIndex(g => g.Name)
+                .IsUnique();
+
+            // Group unicity
+            modelBuilder.Entity<GroupModel>()
+                .HasIndex(g => g.Name)
+                .IsUnique();
 
             // Student -> Gender
             modelBuilder.Entity<StudentModel>()
