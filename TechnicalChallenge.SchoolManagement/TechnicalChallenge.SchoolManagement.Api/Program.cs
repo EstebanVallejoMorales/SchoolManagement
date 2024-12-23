@@ -1,5 +1,8 @@
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using TechnicalChallenge.SchoolManagement.Api.Validators;
 using TechnicalChallenge.SchoolManagement.Data;
 using TechnicalChallenge.SchoolManagement.Dto.Grade;
 using TechnicalChallenge.SchoolManagement.Dto.GradeGroup;
@@ -34,6 +37,10 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
             // Dependencies
+
+            //Validators
+            builder.Services.AddValidatorsFromAssemblyContaining<StudentValidator>();
+            //builder.Services.AddFluentValidationAutoValidation();
 
             //Repositories
             builder.Services.AddScoped<IRepository<Student>, StudentRepository>();

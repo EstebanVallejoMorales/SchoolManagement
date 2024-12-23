@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -20,6 +21,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         private readonly CreateStudentUseCase<CreateStudentRequestDto> _createStudentUseCase;
         private readonly UpdateStudentUseCase<UpdateStudentRequestDto> _updateStudentUseCase;
         private readonly AddStudentToGradeGroupUseCase<AddStudentToGradeGroupRequestDto> _addStudentToGradeGroupUseCase;
+        private readonly IValidator<CreateStudentRequestDto> _createStudentValidator;
 
         public StudentController(
             ILogger<StudentController> logger,
@@ -28,7 +30,8 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             GetStudentByIdUseCase<Student, StudentViewModel> getStudentByIdUseCase,            
             UpdateStudentUseCase<UpdateStudentRequestDto> updateStudentUseCase,
             DeleteStudentUseCase<Student> deleteStudentUseCase,
-            AddStudentToGradeGroupUseCase<AddStudentToGradeGroupRequestDto> addStudentToGradeGroupUseCase)
+            AddStudentToGradeGroupUseCase<AddStudentToGradeGroupRequestDto> addStudentToGradeGroupUseCase,
+            IValidator<CreateStudentRequestDto> createStudentValidator)
         {
             _logger = logger;
             _getStudentByIdUseCase = getStudentByIdUseCase;
@@ -37,6 +40,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
             _deleteStudentUseCase = deleteStudentUseCase;
             _updateStudentUseCase = updateStudentUseCase;
             _addStudentToGradeGroupUseCase = addStudentToGradeGroupUseCase;
+            _createStudentValidator = createStudentValidator;
         }
 
         [HttpGet]
@@ -71,9 +75,25 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
         [Route("CreateStudent")]
         [ProducesResponseType(typeof(ResponseDto<int>), 200)]
         [ProducesResponseType(typeof(ResponseDto<int>), 500)]
+        [ProducesResponseType(typeof(ResponseDto<int>), 400)]
         public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequestDto createStudentDto)
         {
             ResponseDto<int> responseDto = new ResponseDto<int>();
+            var result = _createStudentValidator.Validate(createStudentDto);
+
+            if (!result.IsValid)
+            {
+                var dictErrors = result.ToDictionary();
+                foreach (var property in dictErrors)
+                {
+                    foreach (var error in property.Value)
+                    {
+                        responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = error });
+                    }
+                }
+                return BadRequest(responseDto);
+            }
+
             try
             {
                 responseDto = await _createStudentUseCase.ExecuteAsync(createStudentDto);
