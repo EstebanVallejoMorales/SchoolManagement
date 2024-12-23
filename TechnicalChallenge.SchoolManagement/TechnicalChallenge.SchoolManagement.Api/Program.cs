@@ -12,6 +12,7 @@ using TechnicalChallenge.SchoolManagement.Presenters.Presenters;
 using TechnicalChallenge.SchoolManagement.Presenters.Student;
 using TechnicalChallenge.SchoolManagement.Presenters.ViewModels;
 using TechnicalChallenge.SchoolManagement.Repository;
+using TechnicalChallenge.SchoolManagement.UseCases.Gender;
 using TechnicalChallenge.SchoolManagement.UseCases.Grade;
 using TechnicalChallenge.SchoolManagement.UseCases.GradeGroup;
 using TechnicalChallenge.SchoolManagement.UseCases.Group;
@@ -40,6 +41,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IRepository<StudentGradeGroup>, StudentGradeGroupRepository>();
             builder.Services.AddScoped<IRepository<Group>, GroupRepository>();
             builder.Services.AddScoped<IRepository<Grade>, GradeRepository>();
+            builder.Services.AddScoped<IRepository<Gender>, GenderRepository>();
             builder.Services.AddScoped<IRepository<GradeGroup>, GradeGroupRepository>();
             builder.Services.AddScoped<IRepository<TeacherGradeGroupClassAssignment>, TeacherGradeGroupClassAssignmentRespository>();
             builder.Services.AddScoped<IRepository<TeacherGradeGroupOwnership>, TeacherGradeGroupOwnershipAssignmentRepository>();
@@ -62,6 +64,9 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<DeleteTeacherUseCase<Teacher>>();
             builder.Services.AddScoped<AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto>>();
             builder.Services.AddScoped<AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto>>();
+
+            //  Gender
+            builder.Services.AddScoped<GetAllGendersUseCase<Gender, GenderViewModel>>();
 
             //  Grade
             builder.Services.AddScoped<GetGradeByIdUseCase<Grade, GradeViewModel>>();
@@ -109,6 +114,7 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<IPresenter<Teacher, TeacherViewModel>, TeacherPresenter>();
             builder.Services.AddScoped<IPresenter<Group, GroupViewModel>, GroupPresenter>();
             builder.Services.AddScoped<IPresenter<Grade, GradeViewModel>, GradePresenter>();
+            builder.Services.AddScoped<IPresenter<Gender, GenderViewModel>, GenderPresenter>();
             builder.Services.AddScoped<IPresenter<GradeGroup, GradeGroupViewModel>, GradeGroupPresenter>();
 
 

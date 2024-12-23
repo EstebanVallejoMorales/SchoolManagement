@@ -9,27 +9,27 @@ using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
 {
-    public class GradePresenter : IPresenter<Grade, GradeViewModel>
+    public class GenderPresenter : IPresenter<Gender, GenderViewModel>
     {
-        public IEnumerable<GradeViewModel> Present(IEnumerable<Grade> grades)
+        public IEnumerable<GenderViewModel> Present(IEnumerable<Gender> genders)
         {
-            return grades.Select(grade => new GradeViewModel
+            return genders.Select(gender => new GenderViewModel
             {
-                Id = grade.Id,
-                Name = grade.Name
+                Id = gender.Id,
+                Name = gender.Name
             });
         }
 
-        public GradeViewModel? Present(Grade? grade)
+        public GenderViewModel? Present(Gender? gender)
         {
-            if (grade == null)
+            if (gender == null)
             {
                 return null;
             }
-            return new GradeViewModel
+            return new GenderViewModel
             {
-                Id = grade.Id,
-                Name = grade.Name,
+                Id = gender.Id,
+                Name = gender.Name,
             };
         }
     }
