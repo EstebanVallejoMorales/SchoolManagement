@@ -63,7 +63,9 @@ namespace TechnicalChallenge.SchoolManagement.Repository
                 {
                     Id = s.GenderId,
                     Name = s.Gender.Name
-                }
+                },
+                GradeGroupName = s.StudentGradeGroups != null ? $"{s.StudentGradeGroups.FirstOrDefault().GradeGroup.Grade.Name} {s.StudentGradeGroups.FirstOrDefault().GradeGroup.Group.Name}" : ""
+
             }).ToListAsync();
         }
 

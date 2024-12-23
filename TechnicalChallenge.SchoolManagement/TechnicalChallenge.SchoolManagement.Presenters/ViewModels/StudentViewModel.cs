@@ -10,5 +10,6 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Student
         public int GenderId { get; set; }
         public string GenderName { get; set; }
         public string BirthDate { get; set; }
+        public string GradeGroupName { get; set; }
     }
 }

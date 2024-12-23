@@ -22,7 +22,8 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
                 LastName = student.LastName,
                 Name = student.Name,
                 GenderName = student.Gender.Name,
-                BirthDate = student.BirthDate.ToShortDateString()
+                BirthDate = student.BirthDate.ToShortDateString(),
+                GradeGroupName = student.GradeGroupName
             });
         }
 
