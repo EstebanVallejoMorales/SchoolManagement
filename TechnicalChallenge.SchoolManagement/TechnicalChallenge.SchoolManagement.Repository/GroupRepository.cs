@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TechnicalChallenge.SchoolManagement.Data;
 using TechnicalChallenge.SchoolManagement.Entities;
+using TechnicalChallenge.SchoolManagement.Models;
 using TechnicalChallenge.SchoolManagement.UseCases.Interfaces;
 
 namespace TechnicalChallenge.SchoolManagement.Repository
@@ -20,14 +21,34 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             _dbContext = dbContext;
         }
 
-        public Task<int> AddAsync(Entities.Group entity)
+        public async Task<int> AddAsync(Entities.Group group)
         {
-            throw new NotImplementedException();
+            int createdElements;
+            var groupModel = new GroupModel
+            {
+                Name = group.Name
+            };
+
+            await _dbContext.Groups.AddAsync(groupModel);
+            createdElements = await _dbContext.SaveChangesAsync();
+            return createdElements;
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> UpdateAsync(Entities.Group group)
         {
-            throw new NotImplementedException();
+            int updatedElements;
+            var groupFound = await _dbContext.Groups.FindAsync(group.Id);
+
+            if (group == null)
+            {
+                throw new Exception("Grupo no encontrado");
+            }
+
+            groupFound!.Id = group.Id;
+            groupFound.Name = group.Name;
+
+            updatedElements = await _dbContext.SaveChangesAsync();
+            return updatedElements;
         }
 
         public async Task<IEnumerable<Entities.Group>> GetAllAsync()
@@ -39,14 +60,38 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             }).ToListAsync();
         }
 
-        public Task<Entities.Group?> GetByIdAsync(int id)
+        public async Task<Entities.Group?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var groupModel = await _dbContext.Groups.FirstOrDefaultAsync(p => p.Id == id);
+            if (groupModel != null)
+            {
+                return new Entities.Group
+                {
+                    Name = groupModel.Name,
+                    Id = groupModel.Id
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task<int> UpdateAsync(Entities.Group entity)
+        public async Task<int> DeleteAsync(int groupId)
         {
-            throw new NotImplementedException();
+            int removedElements;
+            var group = await _dbContext.Groups.FindAsync(groupId);
+
+            if (group == null)
+            {
+                throw new Exception("Grupo no encontrado");
+            }
+
+            _dbContext.Groups.Remove(group);
+
+            removedElements = await _dbContext.SaveChangesAsync();
+
+            return removedElements;
         }
     }
 }

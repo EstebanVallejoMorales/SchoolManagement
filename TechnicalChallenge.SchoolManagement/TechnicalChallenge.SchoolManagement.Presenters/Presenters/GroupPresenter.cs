@@ -14,10 +14,10 @@ namespace TechnicalChallenge.SchoolManagement.Presenters.Presenters
     {
         public IEnumerable<GroupViewModel> Present(IEnumerable<Group> groups)
         {
-            return groups.Select(student => new GroupViewModel
+            return groups.Select(group => new GroupViewModel
             {
-                Id = student.Id,                
-                Name = student.Name                
+                Id = group.Id,                
+                Name = group.Name                
             });
         }
 
