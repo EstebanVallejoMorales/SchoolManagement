@@ -28,16 +28,16 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Group
                 {
                     responseDto.Message = $"Grupo eliminado exitosamente";
                 }
-                if (result != 0)
+                if (result == 0)
                 {
-                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se encontró el grupo con id {id}." });
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se pudo eliminar el grupo con id {id}." });
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener el grupo con id {id}"
+                    Message = $"Ocurrió un error al tratar de eliminar el grupo con id {id}"
                 });
             }
             return responseDto;

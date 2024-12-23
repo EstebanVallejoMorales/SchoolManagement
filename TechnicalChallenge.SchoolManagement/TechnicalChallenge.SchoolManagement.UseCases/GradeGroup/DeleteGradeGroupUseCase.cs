@@ -28,16 +28,16 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.GradeGroup
                 {
                     responseDto.Message = $"Grado-Grupo eliminado exitosamente";
                 }
-                if (result != 0)
+                if (result == 0)
                 {
-                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se encontró el Grado-Grupo con id {id}." });
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se pudo eliminar el Grado-Grupo con id {id}." });
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener el Grado-Grupo con id {id}"
+                    Message = $"Ocurrió un error al tratar de eliminar el Grado-Grupo con id {id}"
                 });
             }
             return responseDto;

@@ -30,14 +30,14 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Teacher
                 }
                 if (result == 0)
                 {
-                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se encontró el profesor con id {id}." });
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se pudo eliminar el profesor con id {id}." });
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener el profesor con id {id}. Por favor, verifique que el profesor no esté asociado a algún grupo."
+                    Message = $"Ocurrió un error al tratar de eliminar el profesor con id {id}. Por favor, verifique que el profesor no esté asociado a algún grupo."
                 });
             }
             return responseDto;

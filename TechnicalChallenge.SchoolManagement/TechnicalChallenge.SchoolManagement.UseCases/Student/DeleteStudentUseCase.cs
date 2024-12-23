@@ -28,16 +28,16 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Student
                 {
                     responseDto.Message = $"Estudiante eliminado exitosamente";
                 }
-                if (result != 0)
+                if (result == 0)
                 {
-                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se encontró el estudiante con id {id}." });
+                    responseDto.Errors.Add(new Dto.Error.ErrorDto { Message = $"No se pudo eliminar el estudiante con id {id}." });
                 }
             }
             catch (Exception ex)
             {
                 responseDto.Errors.Add(new Dto.Error.ErrorDto
                 {
-                    Message = $"Ocurrió un error al tratar de obtener el estudiante con id {id}"
+                    Message = $"Ocurrió un error al tratar de eliminar el estudiante con id {id}"
                 });
             }
             return responseDto;
