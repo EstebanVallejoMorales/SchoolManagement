@@ -10,7 +10,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TeacherController : Controller
+    public class TeacherController : ControllerBase
     {
         private readonly ILogger<TeacherController> _logger;
         private readonly GetTeacherByIdUseCase<Teacher, TeacherViewModel> _getTeacherByIdUseCase;

@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using TechnicalChallenge.SchoolManagement.Data;
 using TechnicalChallenge.SchoolManagement.Dto.Grade;
+using TechnicalChallenge.SchoolManagement.Dto.GradeGroup;
 using TechnicalChallenge.SchoolManagement.Dto.Group;
 using TechnicalChallenge.SchoolManagement.Dto.Student;
 using TechnicalChallenge.SchoolManagement.Dto.Teacher;
 using TechnicalChallenge.SchoolManagement.Entities;
 using TechnicalChallenge.SchoolManagement.Mappers;
-using TechnicalChallenge.SchoolManagement.Models;
 using TechnicalChallenge.SchoolManagement.Presenters.Presenters;
 using TechnicalChallenge.SchoolManagement.Presenters.Student;
 using TechnicalChallenge.SchoolManagement.Presenters.ViewModels;
@@ -63,14 +63,14 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<AssignTeacherToGradeGroupClassUseCase<AssignTeacherToGradeGroupClassRequestDto>>();
             builder.Services.AddScoped<AssignTeacherToGradeGroupOwnershipUseCase<AssignTeacherToGradeGroupOwnershipRequestDto>>();
 
-            ////  Grade
+            //  Grade
             builder.Services.AddScoped<GetGradeByIdUseCase<Grade, GradeViewModel>>();
             builder.Services.AddScoped<GetAllGradesUseCase<Grade, GradeViewModel>>();
             builder.Services.AddScoped<CreateGradeUseCase<CreateGradeRequestDto>>();
             builder.Services.AddScoped<UpdateGradeUseCase<UpdateGradeRequestDto>>();
             builder.Services.AddScoped<DeleteGradeUseCase<Grade>>();
 
-            ////  Group
+            //  Group
             builder.Services.AddScoped<GetGroupByIdUseCase<Group, GroupViewModel>>();
             builder.Services.AddScoped<GetAllGroupsUseCase<Group, GroupViewModel>>();
             builder.Services.AddScoped<CreateGroupUseCase<CreateGroupRequestDto>>();
@@ -78,11 +78,11 @@ namespace TechnicalChallenge.SchoolManagement.Api
             builder.Services.AddScoped<DeleteGroupUseCase<Group>>();
 
             //  GradeGroup
-            builder.Services.AddScoped<GetGroupByIdUseCase<Group, GroupViewModel>>();
+            builder.Services.AddScoped<GetGradeGroupByIdUseCase<GradeGroup, GradeGroupViewModel>>();
             builder.Services.AddScoped<GetAllGradeGroupsUseCase<GradeGroup, GradeGroupViewModel>>();
-            //builder.Services.AddScoped<CreateStudentUseCase<CreateStudentRequestDto>>();
-            //builder.Services.AddScoped<UpdateStudentUseCase<UpdateStudentRequestDto>>();
-            //builder.Services.AddScoped<DeleteStudentUseCase<Student>>();
+            builder.Services.AddScoped<CreateGradeGroupUseCase<CreateGradeGroupRequestDto>>();
+            builder.Services.AddScoped<UpdateGradeGroupUseCase<UpdateGradeGroupRequestDto>>();
+            builder.Services.AddScoped<DeleteGradeGroupUseCase<GradeGroup>>();
 
 
             // Mapper
@@ -91,6 +91,9 @@ namespace TechnicalChallenge.SchoolManagement.Api
 
             builder.Services.AddScoped<IMapper<CreateGroupRequestDto, Group>, CreateGroupMapper>();
             builder.Services.AddScoped<IMapper<UpdateGroupRequestDto, Group>, UpdateGroupMapper>();
+
+            builder.Services.AddScoped<IMapper<CreateGradeGroupRequestDto, GradeGroup>, CreateGradeGroupMapper>();
+            builder.Services.AddScoped<IMapper<UpdateGradeGroupRequestDto, GradeGroup>, UpdateGradeGroupMapper>();
 
             builder.Services.AddScoped<IMapper<CreateStudentRequestDto, Student>, CreateStudentMapper>();
             builder.Services.AddScoped<IMapper<UpdateStudentRequestDto, Student>, UpdateStudentMapper>();            

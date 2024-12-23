@@ -10,7 +10,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GroupController : Controller
+    public class GroupController : ControllerBase
     {
         private readonly ILogger<GroupController> _logger;
         private readonly GetAllGroupsUseCase<Group, GroupViewModel> _getAllGroupsUseCase;

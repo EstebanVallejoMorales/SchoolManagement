@@ -10,7 +10,7 @@ namespace TechnicalChallenge.SchoolManagement.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GradeController : Controller
+    public class GradeController : ControllerBase
     {
         private readonly ILogger<GradeController> _logger;
         private readonly GetGradeByIdUseCase<Grade, GradeViewModel> _getGradeByIdUseCase;

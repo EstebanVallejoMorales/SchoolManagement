@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,9 +35,21 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             return createdElements;
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id)  
         {
-            throw new NotImplementedException();
+            int removedElements;
+            var gradeGroup = await _dbContext.GradeGroups.FindAsync(id);
+
+            if (gradeGroup == null)
+            {
+                throw new Exception("Grado-Grupo no encontrado");
+            }
+
+            _dbContext.GradeGroups.Remove(gradeGroup);
+
+            removedElements = await _dbContext.SaveChangesAsync();
+
+            return removedElements;
         }
 
         public async Task<IEnumerable<GradeGroup>> GetAllAsync()
@@ -51,14 +64,50 @@ namespace TechnicalChallenge.SchoolManagement.Repository
             }).ToListAsync();
         }
 
-        public Task<GradeGroup?> GetByIdAsync(int id)
+        public async Task<GradeGroup?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var gradeGroupModel = await _dbContext.GradeGroups.FirstOrDefaultAsync(p => p.Id == id);
+            if (gradeGroupModel != null)
+            {
+                return new GradeGroup
+                {
+                    Id = gradeGroupModel.Id,
+                    GradeId = gradeGroupModel.GradeId,
+                    GroupId= gradeGroupModel.GroupId,
+                    Grade = new Grade 
+                    {
+                        Id = gradeGroupModel.Grade.Id, 
+                        Name = gradeGroupModel.Grade.Name
+                    },
+                    Group = new Group 
+                    { 
+                        Id = gradeGroupModel.Group.Id, 
+                        Name = gradeGroupModel.Group.Name 
+                    }
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task<int> UpdateAsync(GradeGroup entity)
+        public async Task<int> UpdateAsync(GradeGroup gradeGroup)
         {
-            throw new NotImplementedException();
+            int updatedElements;
+            var gradeGroupFound = await _dbContext.GradeGroups.FindAsync(gradeGroup.Id);
+
+            if (gradeGroupFound == null)
+            {
+                throw new Exception("Grado-Grupo no encontrado.");
+            }
+
+            gradeGroupFound!.Id = gradeGroup.Id;
+            gradeGroupFound.GradeId = gradeGroup.GradeId;
+            gradeGroupFound.GroupId = gradeGroup.GroupId;
+
+            updatedElements = await _dbContext.SaveChangesAsync();
+            return updatedElements;
         }
     }
 }
