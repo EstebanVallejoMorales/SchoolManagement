@@ -13,9 +13,9 @@ namespace TechnicalChallenge.SchoolManagement.UseCases.Grade
         private readonly IRepository<TInputEntity> _gradeRepository;
         private readonly IPresenter<TInputEntity, TOutput> _presenter;
 
-        public GetAllGradesUseCase(IRepository<TInputEntity> studentRepository, IPresenter<TInputEntity, TOutput> presenter)
+        public GetAllGradesUseCase(IRepository<TInputEntity> gradeRepository, IPresenter<TInputEntity, TOutput> presenter)
         {
-            _gradeRepository = studentRepository;
+            _gradeRepository = gradeRepository;
             _presenter = presenter;
         }
 
